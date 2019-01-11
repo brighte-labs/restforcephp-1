@@ -10,9 +10,9 @@ use Psr\Http\Message\ResponseInterface;
 
 class Restforce implements RestforceInterface
 {
-    public const USER_INFO_ENDPOINT = 'RESOURCE_OWNER';
+    const USER_INFO_ENDPOINT = 'RESOURCE_OWNER';
 
-    private const DEFAULT_API_VERSION = 'v38.0';
+    const DEFAULT_API_VERSION = 'v38.0';
 
     /** @var string */
     private $clientId;
