@@ -29,9 +29,13 @@ class Restforce implements RestforceInterface
     /** @var OAuthRestClient|null */
     private $oAuthRestClient;
 
+    /** @var $salesforceURL */
+    private $salesforceURL;
+
     public function __construct(
         string $clientId,
         string $clientSecret,
+        string $salesforceURL,
         OAuthAccessToken $accessToken = null,
         string $username = null,
         string $password = null,
@@ -51,6 +55,7 @@ class Restforce implements RestforceInterface
         $this->accessToken = $accessToken;
         $this->username = $username;
         $this->password = $password;
+        $this->salesforceURL = $salesforceURL;
     }
 
     public function create(string $sobjectType, array $data): ResponseInterface
@@ -118,7 +123,7 @@ class Restforce implements RestforceInterface
                     new GuzzleRestClient('https://na1.salesforce.com'),
                     $this->apiVersion
                 ),
-                new GuzzleRestClient('https://login.salesforce.com'),
+                new GuzzleRestClient($this->salesforceURL),
                 $this->clientId,
                 $this->clientSecret,
                 $this->username,
