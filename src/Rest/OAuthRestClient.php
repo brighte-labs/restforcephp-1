@@ -27,9 +27,9 @@ final class OAuthRestClient implements RestClientInterface
         RestClientInterface $authRestClient,
         string $clientId,
         string $clientSecret,
-        ?string $username = null,
-        ?string $password = null,
-        ?OAuthAccessToken $oAuthAccessToken = null
+        string $username = null,
+        string $password = null,
+        OAuthAccessToken $oAuthAccessToken = null
     ) {
         $this->apiRestClient = $apiRestClient;
         $this->authRestClient = $authRestClient;
@@ -44,7 +44,7 @@ final class OAuthRestClient implements RestClientInterface
         string $path,
         array $queryParameters = [],
         array $headers = [],
-        ?float $timeoutSeconds = null
+        float $timeoutSeconds = null
     ): ResponseInterface {
         $this->setParamsFromAccessToken();
         return $this->apiRestClient->get(
@@ -59,7 +59,7 @@ final class OAuthRestClient implements RestClientInterface
         string $path,
         array $formParameters = [],
         array $headers = [],
-        ?float $timeoutSeconds = null
+        float $timeoutSeconds = null
     ): ResponseInterface {
         $this->setParamsFromAccessToken();
         return $this->apiRestClient->post(
@@ -74,7 +74,7 @@ final class OAuthRestClient implements RestClientInterface
         string $path,
         array $jsonArray = [],
         array $headers = [],
-        ?float $timeoutSeconds = null
+        float $timeoutSeconds = null
     ): ResponseInterface {
         $this->setParamsFromAccessToken();
         return $this->apiRestClient->postJson(
@@ -89,7 +89,7 @@ final class OAuthRestClient implements RestClientInterface
         string $path,
         array $jsonArray = [],
         array $headers = [],
-        ?float $timeoutSeconds = null
+        float $timeoutSeconds = null
     ): ResponseInterface {
         $this->setParamsFromAccessToken();
         return $this->apiRestClient->patchJson(
@@ -100,7 +100,7 @@ final class OAuthRestClient implements RestClientInterface
         );
     }
 
-    private function setParamsFromAccessToken(): void
+    private function setParamsFromAccessToken()
     {
         $this->apiRestClient->setBaseUriForRestClient($this->getOAuthAccessToken()->getInstanceUrl());
         $this->apiRestClient->setResourceOwnerUrl($this->getOAuthAccessToken()->getResourceOwnerUrl());

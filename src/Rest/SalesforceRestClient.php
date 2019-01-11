@@ -19,12 +19,12 @@ class SalesforceRestClient implements SalesforceRestClientInterface
         $this->apiVersion = $apiVersion;
     }
 
-    public function setResourceOwnerUrl(string $resourceOwnerUrl): void
+    public function setResourceOwnerUrl(string $resourceOwnerUrl)
     {
         $this->resourceOwnerUrl = $resourceOwnerUrl;
     }
 
-    public function setBaseUriForRestClient(string $baseUri): void
+    public function setBaseUriForRestClient(string $baseUri)
     {
         $this->restClient->setBaseUriForRestClient($baseUri);
     }
@@ -33,7 +33,7 @@ class SalesforceRestClient implements SalesforceRestClientInterface
         string $path,
         array $queryParameters = [],
         array $headers = [],
-        ?float $timeoutSeconds = null
+        float $timeoutSeconds = null
     ): ResponseInterface {
         return $this->restClient->get(
             $this->constructUrl($path),
@@ -47,7 +47,7 @@ class SalesforceRestClient implements SalesforceRestClientInterface
         string $path,
         array $formParameters = [],
         array $headers = [],
-        ?float $timeoutSeconds = null
+        float $timeoutSeconds = null
     ): ResponseInterface {
         return $this->restClient->post(
             $this->constructUrl($path),
@@ -61,7 +61,7 @@ class SalesforceRestClient implements SalesforceRestClientInterface
         string $path,
         array $jsonArray = [],
         array $headers = [],
-        ?float $timeoutSeconds = null
+        float $timeoutSeconds = null
     ): ResponseInterface {
         return $this->restClient->postJson(
             $this->constructUrl($path),
@@ -75,7 +75,7 @@ class SalesforceRestClient implements SalesforceRestClientInterface
         string $path,
         array $jsonArray = [],
         array $headers = [],
-        ?float $timeoutSeconds = null
+        float $timeoutSeconds = null
     ): ResponseInterface {
         return $this->restClient->patchJson(
             $this->constructUrl($path),

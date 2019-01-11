@@ -10,8 +10,9 @@ use Psr\Http\Message\ResponseInterface;
 
 class Restforce implements RestforceInterface
 {
-    const USER_INFO_ENDPOINT = 'RESOURCE_OWNER';
-    const DEFAULT_API_VERSION = 'v38.0';
+    public const USER_INFO_ENDPOINT = 'RESOURCE_OWNER';
+
+    private const DEFAULT_API_VERSION = 'v38.0';
 
     /** @var string */
     private $clientId;
@@ -27,13 +28,10 @@ class Restforce implements RestforceInterface
     private $apiVersion;
     /** @var OAuthRestClient|null */
     private $oAuthRestClient;
-    /** @var string  $salesforceOauthUrl */
-    private $salesforceOauthUrl;
-    /**  string $apiVersion = null */
+
     public function __construct(
         string $clientId,
         string $clientSecret,
-        string $salesforceOauthUrl,
         OAuthAccessToken $accessToken = null,
         string $username = null,
         string $password = null,
@@ -53,7 +51,6 @@ class Restforce implements RestforceInterface
         $this->accessToken = $accessToken;
         $this->username = $username;
         $this->password = $password;
-        $this->salesforceOauthUrl = $salesforceOauthUrl;
     }
 
     public function create(string $sobjectType, array $data): ResponseInterface
@@ -121,7 +118,7 @@ class Restforce implements RestforceInterface
                     new GuzzleRestClient('https://na1.salesforce.com'),
                     $this->apiVersion
                 ),
-                new GuzzleRestClient($this->salesforceOauthUrl),
+                new GuzzleRestClient('https://login.salesforce.com'),
                 $this->clientId,
                 $this->clientSecret,
                 $this->username,

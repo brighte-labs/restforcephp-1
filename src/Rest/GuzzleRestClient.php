@@ -20,7 +20,7 @@ class GuzzleRestClient implements RestClientInterface
         $this->setBaseUriForRestClient($baseUri);
     }
 
-    public function setBaseUriForRestClient(string $baseUri): void
+    public function setBaseUriForRestClient(string $baseUri)
     {
         if (!$this->containsTrailingSlash($baseUri)) {
             $baseUri .= '/';
@@ -38,7 +38,7 @@ class GuzzleRestClient implements RestClientInterface
         string $path,
         array $queryParameters = [],
         array $headers = [],
-        ?float $timeoutSeconds = null
+        float $timeoutSeconds = null
     ): ResponseInterface {
         return $this->client->request(
             'GET',
@@ -56,7 +56,7 @@ class GuzzleRestClient implements RestClientInterface
         string $path,
         array $formParameters = [],
         array $headers = [],
-        ?float $timeoutSeconds = null
+        float $timeoutSeconds = null
     ): ResponseInterface {
         return $this->client->request(
             'POST',
@@ -74,7 +74,7 @@ class GuzzleRestClient implements RestClientInterface
         string $path,
         array $jsonArray = [],
         array $headers = [],
-        ?float $timeoutSeconds = null
+        float $timeoutSeconds = null
     ): ResponseInterface {
         $headers['Content-Type'] = 'application/json';
 
@@ -94,7 +94,7 @@ class GuzzleRestClient implements RestClientInterface
         string $path,
         array $jsonArray = [],
         array $headers = [],
-        ?float $timeoutSeconds = null
+        float $timeoutSeconds = null
     ): ResponseInterface {
         $headers['Content-Type'] = 'application/json';
 
