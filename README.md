@@ -6,30 +6,14 @@
 [![Code Climate](https://codeclimate.com/github/eventfarm/restforcephp/badges/gpa.svg)](https://codeclimate.com/github/eventfarm/restforcephp)
 [![Test Coverage](https://codeclimate.com/github/eventfarm/restforcephp/badges/coverage.svg)](https://codeclimate.com/github/eventfarm/restforcephp/coverage)
 
-This is meant to emulate what the [ejhomes/restforce gem](https://github.com/ejholmes/restforce) is doing for rails.
+This is a fork of eventfarm/restforcephp in order to make it compatible with php 7.0.
 
 ## Installation
 
-This library requires PHP 7.1 or later; we recommend using the latest available version of PHP.
+This library requires PHP 7.0 or later; we recommend using the latest available version of PHP.
 
 ```
-$ composer require eventfarm/restforcephp
-```
-
-Or.
-
-Add the following lines to your ``composer.json`` file.
-
-```json
-{
-    "require": {
-        "eventfarm/restforcephp": "^2.0.0"
-    }
-}
-```
-
-```bash
-$ composer install
+$ composer require eventfarm/restforcephp:dev-master
 ```
 
 ## Project Defaults
