@@ -3,7 +3,7 @@ namespace EventFarm\Restforce;
 
 use Psr\Http\Message\ResponseInterface;
 
-interface RestforceInterface
+interface RestforceInterface extends RestApexInterface
 {
     public function userInfo(): ResponseInterface;
     public function create(string $sobjectType, array $data): ResponseInterface;

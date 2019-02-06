@@ -1,4 +1,5 @@
 <?php
+
 namespace EventFarm\Restforce;
 
 use EventFarm\Restforce\Rest\GuzzleRestClient;
@@ -11,7 +12,6 @@ use Psr\Http\Message\ResponseInterface;
 class Restforce implements RestforceInterface
 {
     const USER_INFO_ENDPOINT = 'RESOURCE_OWNER';
-
     const DEFAULT_API_VERSION = 'v38.0';
 
     /** @var string */
@@ -28,18 +28,21 @@ class Restforce implements RestforceInterface
     private $apiVersion;
     /** @var OAuthRestClient|null */
     private $oAuthRestClient;
+    /** @var string $salesforceOauthUrl */
+    private $salesforceOauthUrl;
+    /*Apex rest end points. Excludes the domain/host ($salesforceOauthUrl)*/
+    private $apexEndPoint;
 
-    /** @var $salesforceURL */
-    private $salesforceURL;
-
+    /**  string $apiVersion = null */
     public function __construct(
         string $clientId,
         string $clientSecret,
-        string $salesforceURL,
+        string $salesforceOauthUrl,
         OAuthAccessToken $accessToken = null,
         string $username = null,
         string $password = null,
-        string $apiVersion = null
+        string $apiVersion = null,
+        string $apexEndPoint = "/services/apexrest/api/"
     ) {
         if ($accessToken === null && $username === null && $password === null) {
             throw RestforceException::minimumRequiredFieldsNotMet();
@@ -49,13 +52,15 @@ class Restforce implements RestforceInterface
             $apiVersion = self::DEFAULT_API_VERSION;
         }
 
+
         $this->apiVersion = $apiVersion;
         $this->clientId = $clientId;
         $this->clientSecret = $clientSecret;
         $this->accessToken = $accessToken;
         $this->username = $username;
         $this->password = $password;
-        $this->salesforceURL = $salesforceURL;
+        $this->salesforceOauthUrl = $salesforceOauthUrl;
+        $this->apexEndPoint = $apexEndPoint;
     }
 
     public function create(string $sobjectType, array $data): ResponseInterface
@@ -123,7 +128,7 @@ class Restforce implements RestforceInterface
                     new GuzzleRestClient('https://na1.salesforce.com'),
                     $this->apiVersion
                 ),
-                new GuzzleRestClient($this->salesforceURL),
+                new GuzzleRestClient($this->salesforceOauthUrl),
                 $this->clientId,
                 $this->clientSecret,
                 $this->username,
@@ -133,5 +138,38 @@ class Restforce implements RestforceInterface
         }
 
         return $this->oAuthRestClient;
+    }
+
+    /**
+     * @param string $sobjectType object name
+     * @param string $sobjectId object id
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function findApexObject(string $sobjectType, string $sobjectId): ResponseInterface
+    {
+        $uri = $this->apexEndPoint . $sobjectType . '/' . $sobjectId;
+        return $this->getOAuthRestClient()->get($this->salesforceOauthUrl . $uri);
+    }
+
+    /**
+     * @param string $sobjectType object name
+     * @param array $data data
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function createApexObject(string $sobjectType, array $data): ResponseInterface
+    {
+        $uri = $this->apexEndPoint . $sobjectType . '/';
+        return $this->getOAuthRestClient()->post($this->salesforceOauthUrl . $uri, $data);
+    }
+
+    /**
+     * @param string $sobjectType object name
+     * @param array $data data
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function updateApexObject(string $sobjectType, array $data): ResponseInterface
+    {
+        $uri = $this->apexEndPoint . $sobjectType . '/';
+        return $this->getOAuthRestClient()->patchJson($this->salesforceOauthUrl . $uri, $data);
     }
 }
